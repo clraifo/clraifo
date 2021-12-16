@@ -1,0 +1,188 @@
+<!--
+
+Casey L Raiford
+CSC102 
+Module 8 - integrated sound (lines 88 and 144)
+
+-->
+
+
+<!--sets document tpe to HTML, language to English-->
+<!DOCTYPE html>
+<html lang="en">
+
+
+<!--Head section; canned HTML info/settings-->
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+</head>
+
+<!--style section, centers the content-->
+<style>
+.content {
+  max-width: 500px;
+  margin: auto;
+}
+</style>
+
+<!--sets the background color-->
+<body style="background-color:rgb(182, 192, 238);">
+
+<!--creates DIV for the style above -->
+<div class="content">
+
+<!--creates a form four user inputs-->
+    <form id="form"><b>Log in to proceed</b>
+
+<!--first name entry form, gives it a type, name, placeholder text and makes it required-->
+        <div>
+
+            <label for="name">First Name</label>
+            <input type="text" name="name1" id="name1" placeholder="first name" required>
+        </div>
+        
+<!--last name entry form, gives it a type, name, placeholder text and makes it required-->        
+
+        <div>
+
+            <label for="name">Last Name</label>
+            <input type="text" name="name2" id="name2" placeholder="last name" required>
+        </div>
+
+<!--PIN entry form, gives it a type, name, placeholder text and makes it required-->
+        <div>
+            <label for="password">PIN</label>
+            <input type="password" name="password" id="password" required>
+		
+        </div>
+
+<!--creates a button to reset the forms, names it Reset-->
+        <button type="reset">Reset</button>
+        
+<!--creates a button to submit the forms, names it Submit-->        
+        <button type="submit">Submit</button>
+
+    </form>
+
+<!--Creates a label for the user input to be displayed-->
+    <label>Your input: </label>
+    
+<!--creates a para to actually display the user input-->    
+    <p><span id='display'></span></p>
+
+<!--same countdown headers and paragraphs from the previous submission-->
+    <h1>Countdown to Blast Off!</h1>
+    <p>This application will start the countdown</p>
+
+<!--creates Start button, has it call the startCountdown fucntion, sets the default status to disabled-->
+    <button id = "startButton" onclick="startCountdown()" disabled="true">START</button>
+
+<!--creates Stop button, has it call the stopCountdown function , sets the default status to disabled-->
+    <button id = "stopButton" onclick="stopCountdown()" disabled="true">STOP</button>
+
+<!--creates thwe countdown starting point-->
+    <h2>Countdown</h2>
+    <p id="DisplayCountdown">10</p>
+
+    <script>
+// declares the variable ROAR, assigns the http link to a .wav to it 
+var roarSound = new Audio('http://lotl.popapostle.com/sounds/LOTL09/roar.wav');
+
+//declares the constant FORM, defines it as the form and fetches it by it's ID
+        const form = document.getElementById("form");
+
+//outputs to console for troubleshooting my crappy code
+	console.log(form);
+
+//creates an event listener tied to the submit button
+		form.addEventListener('submit', (e) => {
+
+//declares name1 as a constant, assigns it to "name1", adds the value for validation purposes
+			const name1 = document.getElementById("name1").value;
+
+//declares name2 as a constant, assigns it to "name1", adds the value for validation purposes
+			const name2 = document.getElementById("name2").value;
+
+//declares password as a constant, assigns it to "name1", adds the value for validation purposes
+//this is displayed as PIN to the user onscreen
+			const password = document.getElementById("password").value;
+
+//declares the variable of ISVALID, sets it to true 
+            let isvalid = true;
+
+//declares the constant fullname, defines it as name1, a single space, and name2 all slammed together
+            const fullname = name1 + " " + name2;
+
+//sets the condition that if the variable fullname is more than 20 chars then isvalid is false
+            if (fullname.length > 20) {
+                isvalid = false;
+            }
+
+
+//sets the condition that if the variable password is more than 3 chars then isvalid is false
+			if (password.length > 3) {
+                isvalid = false;
+            }
+            
+//sets the condition that if isvalid (which containts the value true), then the fullname is displayed
+//and the countdown starts
+            if (isvalid) {
+                document.getElementById("display").innerHTML = fullname;
+                document.getElementById("startButton").disabled=false;
+            }
+
+//if isvalid is not satisfied/true, then displays an error message
+			else {
+                document.getElementById("display").innerHTML = "Login Incorrect, Try again";
+            }
+            e.preventDefault();
+        });
+
+//creates the startCountdown function, sets the counter interval to 1000
+//sets the stop button disabled value to false
+//sets the stop button disabled value to true
+//calls roarsound variable from line 88
+            function startCountdown() {
+                counter = setInterval(counter, 1000)
+                document.getElementById("stopButton").disabled=false;
+                document.getElementById("startButton").disabled=true;
+                roarSound.play();
+            }
+//creates the stopcountdown function
+//clears the interval called in startCountdown
+//sets the stop button disabled value to true
+//sets the start button disabled value to false
+            function stopCountdown() {
+                clearInterval(counter);
+                document.getElementById("stopButton").disabled=true;
+                document.getElementById("startButton").disabled=false;
+            }
+
+//starts the same countdown from the previously Change ORder assignment in Module 5
+//throws text at the 5 second mark that it's halfway done
+        let n=10;
+        function counter() {
+            console.log(n);
+            n--;
+                if (n > 5) {
+                    document.getElementById("DisplayCountdown").innerHTML = n;
+                }
+                else {
+                    document.getElementById("DisplayCountdown").innerHTML = "Warning Less than ½ way to launch, time left =   " + n;
+                }
+                if (n < 0) {
+                    document.getElementById("DisplayCountdown").innerHTML = "BLASTOFF!!!"
+                    document.getElementById("startButton").disabled=true;
+                }
+            }
+
+    </script>
+</div>
+
+</body>
+
+</html>
